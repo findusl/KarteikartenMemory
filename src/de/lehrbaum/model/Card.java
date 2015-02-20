@@ -4,8 +4,12 @@ public class Card {
 	private String text;
 	private Card partner;
 	
+	 //true if the partner of this card was found and it should stay on the field
+	public boolean isLocked;
+	
 	public Card(String text){
 		this.text = text;
+		isLocked = false;
 	}
 	
 	public Card(String text, Card pair){
