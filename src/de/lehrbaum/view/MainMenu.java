@@ -7,6 +7,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import de.lehrbaum.model.Controller;
+
+@SuppressWarnings("serial")
 public class MainMenu extends JPanel {
 	Controller c;
 	
