@@ -1,7 +1,5 @@
 package de.lehrbaum.view;
 
-import java.awt.Point;
-
 import javax.swing.JPanel;
 
 import de.lehrbaum.model.Controller;
@@ -14,11 +12,11 @@ public class GamePanel extends JPanel {
 		this.c = c;
 	}
 	
-	public void setText(Point coordinate, String text) {
+	public void setText(int fieldID, String text) {
 		
 	}
 	
-	public void hideField(Point coordinate) {
+	public void hideField(int fieldID) {
 		
 	}
 }
