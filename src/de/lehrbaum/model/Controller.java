@@ -17,7 +17,7 @@ public class Controller {
 	
 	private MainFrame window;
 	private GamePanel gamePanel;
-	private MainMenu menu;
+	private MyPanel menu;
 	
 	
 	public static void main(String[] args){

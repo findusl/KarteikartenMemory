@@ -1,15 +1,11 @@
 package de.lehrbaum.view;
 
-import javax.swing.JPanel;
-
 import de.lehrbaum.model.Controller;
 
 @SuppressWarnings("serial")
-public class GamePanel extends JPanel {
-	private Controller c;
-	
+public class GamePanel extends MyPanel {
 	public GamePanel(Controller c, int cardNumbers) {
-		this.c = c;
+		super(c);
 	}
 	
 	public void setText(int fieldID, String text) {
@@ -19,4 +15,7 @@ public class GamePanel extends JPanel {
 	public void hideField(int fieldID) {
 		
 	}
+	
+	@Override
+	protected void initialize() {}
 }
