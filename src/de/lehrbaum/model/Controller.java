@@ -1,5 +1,6 @@
 package de.lehrbaum.model;
 
+import java.awt.SecondaryLoop;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import de.lehrbaum.view.*;
 public class Controller {
 	private Card[] gameCards;
 	private int openSingleCard = -1; //IF a Card without pair is open the Position (in the gameCard Array) is stored here
+	private int wrongPair = -1; //After 2nd card was wrong this stores the second card until next click
 	
 	private LinkedList<Cardpair> cardPairs;
 	private GameReader reader;
@@ -31,6 +33,8 @@ public class Controller {
 	}
 	
 	public void startGameClicked(){
+		openSingleCard = -1;
+		wrongPair = -1;
 		gameCards = new Card[cardPairs.size()*2];
 		
 		//init the gameCards List
@@ -75,6 +79,15 @@ public class Controller {
 	}
 	
 	public void fieldClicked(int position){
+		
+		if(wrongPair != -1){//2 Cards are open, which are NOT pairs
+			gamePanel.hideField(openSingleCard);
+			gamePanel.hideField(wrongPair);
+			openSingleCard = -1;
+			wrongPair = -1;
+			return;
+		}
+		
 		if(gameCards[position].isLocked) return; //locked cards can't be removed
 		
 		if(openSingleCard == -1){ //No other card is open
@@ -94,16 +107,9 @@ public class Controller {
 				
 				testForWin();
 			}
-			else{ //Cards do not fit -> Show both cards for 2 secs, then make both dissappear
+			else{ //Cards do not fit -> Show new wrong card and init 'wrongPair' so they both can be removed @next click
 				gamePanel.setText(position, gameCards[position].getText());
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				gamePanel.hideField(position);
-				gamePanel.hideField(openSingleCard);
-				openSingleCard = -1;
+				wrongPair = position;
 			}
 		}
 	}
