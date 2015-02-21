@@ -22,9 +22,9 @@ public class CreateCardPanel extends MyPanel {
 	
 	public CreateCardPanel(Controller c) {
 		super(c);
+		initialize();
 	}
 	
-	@Override
 	protected void initialize() {
 		Dimension verticalSpace = new Dimension(0, 5);
 		//nameLabel:

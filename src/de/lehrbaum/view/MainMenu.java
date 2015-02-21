@@ -14,9 +14,9 @@ import de.lehrbaum.model.Controller;
 public class MainMenu extends MyPanel {
 	public MainMenu(Controller c) {
 		super(c);
+		initialize();
 	}
 	
-	@Override
 	protected void initialize() {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);

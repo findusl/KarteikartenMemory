@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -31,17 +32,18 @@ public class MainFrame extends JFrame {
 	
 	public void setPanel(JPanel panel) {
 		setContentPane(panel);
+		panel.setPreferredSize(getPreferredSize());
 		pack();
 		setVisible(true);
 	}
 	
 	public void showMessage(String message) {
-		
+		JOptionPane.showMessageDialog(this, message);
 	}
 	
 	public static void main(String[] args) {
 		MainFrame frame = new MainFrame();
-		CreateCardPanel create = new CreateCardPanel(new Controller());
-		frame.setPanel(create);
+		GamePanel panel = new GamePanel(new Controller(), 5);
+		frame.setPanel(panel);
 	}
 }

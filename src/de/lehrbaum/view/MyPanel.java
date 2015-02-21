@@ -11,6 +11,13 @@ import javax.swing.text.JTextComponent;
 
 import de.lehrbaum.model.Controller;
 
+/**
+ * This super class is not really necessary. Actually the classes except one could directly inherit
+ * JPanel.
+ * 
+ * @author Sebastian
+ * @version 1.0
+ */
 public abstract class MyPanel extends JPanel {
 	private static final Object hintKey = new Object();
 	
@@ -19,10 +26,7 @@ public abstract class MyPanel extends JPanel {
 	public MyPanel(Controller c) {
 		super();
 		this.c = c;
-		initialize();
 	}
-	
-	protected abstract void initialize();
 	
 	public static void addHint(final JTextComponent comp, final String hint) {
 		comp.putClientProperty(hintKey, hint);
