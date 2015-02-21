@@ -7,16 +7,21 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import de.lehrbaum.model.Controller;
 
 @SuppressWarnings("serial")
-public class MainMenu extends MyPanel {
+public class MainMenu extends JPanel {
+	
+	protected Controller c;
+	
 	public MainMenu(Controller c) {
-		super(c);
+		super();
+		this.c = c;
+		initialize();
 	}
 	
-	@Override
 	protected void initialize() {
 		BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
 		setLayout(layout);
