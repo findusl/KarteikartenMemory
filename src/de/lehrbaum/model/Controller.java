@@ -1,6 +1,7 @@
 package de.lehrbaum.model;
 
-import java.awt.Point;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import de.lehrbaum.view.*;
@@ -14,34 +15,63 @@ public class Controller {
 	
 	private MainFrame window;
 	private GamePanel gamePanel;
+	private MainMenu menu;
 	
 	
 	public static void main(String[] args){
-		//Read Cardpairs
-		//Create gameBoard with Cards
-		//Create MainFrame
-		//Start Main Menue
+		Controller mainGame = new Controller();
+		mainGame.window.setPanel(mainGame.menu);
+	}
+	
+	public Controller(){
+		reader = new GameReader();
+		window = new MainFrame();
+		menu = new MainMenu(this);
+		
 	}
 	
 	public void startGameClicked(){
-		gameCards = new Card[cardPairs.size()];
-		//use shuffle
+		gameCards = new Card[cardPairs.size()*2];
+		
+		//init the gameCards List
+		int i = 0;
+		for(Cardpair cards:cardPairs){
+			gameCards[i++] = cards.getDescriptionCard();
+			gameCards[i++] = cards.getNameCard();
+		}
+		//ensure that every card is invisible and not locked
+		for(Card c:gameCards){
+			c.isLocked=false;
+		}
+		
+		//shuffle the cards
+		Collections.shuffle(Arrays.asList(gameCards));
+		
 		//create GamePanel
+		gamePanel = new GamePanel(this, gameCards.length);
+		
 		//add GamePanel to MainFrame
+		window.setPanel(gamePanel);
+		
 	}
 	
 	public void createCardClicked(){
 		//create CreateCardPanel
 		//add it to the mainFrame
+		window.setPanel(new CreateCardPanel(this));
 	}
 	
 	public void createCardAborted(){
 		//restore the game, do NOT start a new one
+		window.setPanel(gamePanel);
 	}
 	
 	public void addCard(String name, String descr){
 		Cardpair newCards = new Cardpair(name, descr);
 		reader.addCardPair(newCards);
+		
+		window.setPanel(gamePanel);
+		
 	}
 	
 	public void fieldClicked(int position){
@@ -61,6 +91,8 @@ public class Controller {
 				gameCards[openSingleCard].isLocked = true;
 				
 				openSingleCard = -1;
+				
+				testForWin();
 			}
 			else{ //Cards do not fit -> Show both cards for 2 secs, then make both dissappear
 				gamePanel.setText(position, gameCards[position].getText());
@@ -74,5 +106,16 @@ public class Controller {
 				openSingleCard = -1;
 			}
 		}
+	}
+	
+	private void testForWin(){
+		//Check if every Card is locked
+		for(Card c: gameCards){
+			if(!c.isLocked){
+				return;
+			}
+		}
+		window.showMessage("GEWONNEN!");
+		window.setPanel(menu);
 	}
 }
