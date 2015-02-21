@@ -3,6 +3,8 @@ package de.lehrbaum.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -35,6 +37,13 @@ public class MemoryCardView extends JButton implements ActionListener {
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		textArea.setVisible(false);
+		textArea.setEditable(false);
+		textArea.addMouseListener(new AbstractMouseListener() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				actionPerformed(null);
+			}
+		});
 		add(textArea);
 	}
 	
@@ -55,5 +64,24 @@ public class MemoryCardView extends JButton implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		c.fieldClicked(cardID);
+	}
+	
+	private static abstract class AbstractMouseListener implements MouseListener {
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {}
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {}
+		
 	}
 }
