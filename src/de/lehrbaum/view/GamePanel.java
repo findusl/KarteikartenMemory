@@ -3,17 +3,21 @@ package de.lehrbaum.view;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.JPanel;
+
 import de.lehrbaum.model.Controller;
 
 @SuppressWarnings("serial")
-public class GamePanel extends MyPanel {
+public class GamePanel extends JPanel {
 	
+	protected Controller c;
 	private int numCards;
 	private int cardsPerRow;
 	private MemoryCardView[] cards;
 	
 	public GamePanel(Controller c, int cardNumbers) {
-		super(c);
+		super();
+		this.c = c;
 		numCards = cardNumbers;
 		double x = Math.sqrt(numCards);
 		cardsPerRow = (int) x;
