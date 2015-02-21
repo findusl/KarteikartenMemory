@@ -1,6 +1,5 @@
 package de.lehrbaum.model;
 
-import java.awt.SecondaryLoop;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -17,7 +16,7 @@ public class Controller {
 	
 	private MainFrame window;
 	private GamePanel gamePanel;
-	private MyPanel menu;
+	private MainMenu menu;
 	
 	
 	public static void main(String[] args){
@@ -29,7 +28,7 @@ public class Controller {
 		reader = new GameReader();
 		window = new MainFrame();
 		menu = new MainMenu(this);
-		
+		cardPairs = reader.getCardPairs();
 	}
 	
 	public void startGameClicked(){
@@ -67,14 +66,15 @@ public class Controller {
 	
 	public void createCardAborted(){
 		//restore the game, do NOT start a new one
-		window.setPanel(gamePanel);
+		window.setPanel(menu);
 	}
 	
 	public void addCard(String name, String descr){
 		Cardpair newCards = new Cardpair(name, descr);
-		reader.addCardPair(newCards);
+		cardPairs.add(newCards);
+		reader.addCardPair(cardPairs);
 		
-		window.setPanel(gamePanel);
+		window.setPanel(menu);
 		
 	}
 	
@@ -92,6 +92,7 @@ public class Controller {
 		
 		if(openSingleCard == -1){ //No other card is open
 			gamePanel.setText(position, gameCards[position].getText());
+			openSingleCard = position;
 		}
 		else if(openSingleCard == position){//Same Card clicked again
 			gamePanel.hideField(position);

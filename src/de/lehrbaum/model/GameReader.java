@@ -3,17 +3,30 @@ package de.lehrbaum.model;
 import java.util.LinkedList;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 
 public class GameReader {
-	private final String fileLocation = "/cards/cardpairs.ser";
+	private final String fileLocation = "/de/lehrbaum/data/cardpairs.ser";
 
 	private File file;
 	
 	public GameReader(){
-		file = new File(fileLocation);
+		file = new File ("cardpairs.ser");
+		
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//file = new File(getClass().getResource(fileLocation).getFile());
 	}
 	
 	public LinkedList<Cardpair> getCardPairs(){
@@ -23,10 +36,7 @@ public class GameReader {
 			ObjectInputStream fileIn = new ObjectInputStream(fis);
 			
 			
-			Cardpair p;
-			while((p= (Cardpair) fileIn.readObject()) != null){
-				list.add(p);
-			}
+			list = (LinkedList<Cardpair>) fileIn.readObject();
 			
 			fileIn.close();
 			fis.close();
@@ -34,12 +44,12 @@ public class GameReader {
 		return list;
 	}
 	
-	public void addCardPair(Cardpair newCardPair){
+	public void addCardPair(LinkedList<Cardpair> cardPairs){
 		try{
-			FileOutputStream fos = new FileOutputStream(file, true);
+			FileOutputStream fos = new FileOutputStream(file);
 			ObjectOutputStream fileOut = new ObjectOutputStream(fos);
 			
-			fileOut.writeObject(newCardPair);
+			fileOut.writeObject(cardPairs);
 			
 			fileOut.close();
 			fos.close();

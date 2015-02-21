@@ -10,7 +10,7 @@ public class Cardpair implements Serializable {
 	
 	public Cardpair(String name, String descr){
 		nameCard = new Card(name);
-		descrCard = new Card(name, nameCard);
+		descrCard = new Card(descr, nameCard);
 	}
 	
 	public Card getDescriptionCard(){
