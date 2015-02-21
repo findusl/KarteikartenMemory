@@ -45,5 +45,12 @@ public class MainFrame extends JFrame {
 		MainFrame frame = new MainFrame();
 		GamePanel panel = new GamePanel(new Controller(), 5);
 		frame.setPanel(panel);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		panel.setText(3,
+			"Dies ist ein etwas längerer Text und soll mir mal zeigen wie der darbestellt wird.");
 	}
 }

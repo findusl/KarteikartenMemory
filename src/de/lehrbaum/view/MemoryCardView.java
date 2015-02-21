@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import de.lehrbaum.model.Controller;
@@ -21,25 +22,33 @@ public class MemoryCardView extends JButton implements ActionListener {
 	
 	protected Controller c;
 	protected int cardID;
+	protected JTextArea textArea;
 	
 	public MemoryCardView(Controller c, int id) {
 		super();
 		this.c = c;
 		cardID = id;
-		setBorder(new LineBorder(Color.BLACK, 10));
+		setBorder(new LineBorder(Color.BLACK, 6));
 		setIcon(buttonIcon);
 		addActionListener(this);
+		textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setVisible(false);
+		add(textArea);
 	}
 	
 	@Override
 	public void setText(String text) {
 		setIcon(null);
 		setToolTipText(text);
-		super.setText(text);
+		textArea.setText(text);
+		textArea.setToolTipText(text);
+		textArea.setVisible(true);
 	}
 	
 	public void hideText() {
-		super.setText("");
+		textArea.setVisible(false);
 		setIcon(buttonIcon);
 	}
 	
