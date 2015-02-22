@@ -63,6 +63,10 @@ public class MemoryCardView extends JButton implements ActionListener {
 		setIcon(buttonIcon);
 	}
 	
+	public void setSolved() {
+		setBorder(new LineBorder(Color.GREEN, 6));
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		c.fieldClicked(cardID);

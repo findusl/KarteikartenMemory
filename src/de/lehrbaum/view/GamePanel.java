@@ -36,6 +36,10 @@ public class GamePanel extends JPanel {
 		cards[fieldID].hideText();
 	}
 	
+	public void setSolved(int fieldID) {
+		cards[fieldID].setSolved();
+	}
+	
 	@Override
 	public void setPreferredSize(Dimension preferredSize) {
 		double width = preferredSize.getWidth();
