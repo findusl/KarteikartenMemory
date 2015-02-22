@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -16,11 +17,8 @@ import de.lehrbaum.model.Controller;
 
 @SuppressWarnings("serial")
 public class MemoryCardView extends JButton implements ActionListener {
-	private static final Icon buttonIcon;
-	
-	static {
-		buttonIcon = new ImageIcon("res/Sweetheart-Annie-Splash.png");
-	}
+	private static final String iconPath = "/icons/Sweetheart-Annie-Splash.png";
+	private static Icon buttonIcon;
 	
 	protected Controller c;
 	protected int cardID;
@@ -31,6 +29,10 @@ public class MemoryCardView extends JButton implements ActionListener {
 		this.c = c;
 		cardID = id;
 		setBorder(new LineBorder(Color.BLACK, 6));
+		if (buttonIcon == null) {
+			URL url = getClass().getResource(iconPath);
+			buttonIcon = new ImageIcon(url);
+		}
 		setIcon(buttonIcon);
 		addActionListener(this);
 		textArea = new JTextArea();
