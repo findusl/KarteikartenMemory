@@ -32,6 +32,10 @@ public class Controller {
 	}
 	
 	public void startGameClicked(){
+		if(cardPairs.size()==0){
+			window.showMessage("Keine Karten Vorhanden!");
+			return;
+		}
 		openSingleCard = -1;
 		wrongPair = -1;
 		gameCards = new Card[cardPairs.size()*2];
@@ -96,6 +100,7 @@ public class Controller {
 		}
 		else if(openSingleCard == position){//Same Card clicked again
 			gamePanel.hideField(position);
+			openSingleCard = -1;
 		}
 		else{//Second card opened -> Test if pair
 			if(gameCards[openSingleCard].isPair(gameCards[position])){//the Cards fit
