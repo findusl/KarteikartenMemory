@@ -11,16 +11,18 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 
 public class GameReader {
-	private final String fileLocation = "/de/lehrbaum/data/cardpairs.ser";
+	private final String fileLocation = System.getProperty("user.home")+ "/AppData/MedicineMemory/cardpairs.ser";
 
 	private File file;
 	
 	public GameReader(){
-		file = new File ("cardpairs.ser");
-		
+		System.out.println(fileLocation);
+		file = new File (fileLocation);
 		if(!file.exists()){
 			try {
+				file.getParentFile().mkdirs();
 				file.createNewFile();
+				addCardPair(new LinkedList<Cardpair>());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -34,7 +36,6 @@ public class GameReader {
 		try{
 			FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream fileIn = new ObjectInputStream(fis);
-			
 			
 			list = (LinkedList<Cardpair>) fileIn.readObject();
 			

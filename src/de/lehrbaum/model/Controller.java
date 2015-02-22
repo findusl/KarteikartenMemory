@@ -102,7 +102,9 @@ public class Controller {
 				//Show the new Card and mark both as locked
 				gamePanel.setText(position, gameCards[position].getText());
 				gameCards[position].isLocked = true;
+				gamePanel.setSolved(position);
 				gameCards[openSingleCard].isLocked = true;
+				gamePanel.setSolved(openSingleCard);
 				
 				openSingleCard = -1;
 				
