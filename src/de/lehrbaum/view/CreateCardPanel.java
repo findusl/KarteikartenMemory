@@ -26,6 +26,7 @@ public class CreateCardPanel extends JPanel {
 	
 	protected Controller c;
 	private JTextField nameField;
+	private JTextField catField;
 	private JTextArea desArea;
 	
 	public CreateCardPanel(Controller c) {
@@ -42,6 +43,13 @@ public class CreateCardPanel extends JPanel {
 		nameField = new JTextField();
 		addHint(nameField, "Der Name der Medizin.");
 		nameField.setAlignmentX(LEFT_ALIGNMENT);
+		//catLabel:
+		JLabel catLabel = new JLabel("Kategorie");
+		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
+		//catField:
+		catField = new JTextField();
+		addHint(catField, "Die Kategorie der Medizin.");
+		catField.setAlignmentX(LEFT_ALIGNMENT);
 		//descriptionLabel:
 		JLabel desLabel = new JLabel("Beschreibung");
 		desLabel.setAlignmentX(LEFT_ALIGNMENT);
@@ -71,8 +79,9 @@ public class CreateCardPanel extends JPanel {
 					c.createCardAborted();
 					return;
 				}
+				String categorie = catField.getText();
 				String description = desArea.getText();
-				c.addCard(name, description);
+				c.addCard(name, categorie, description);
 			}
 		});
 		GroupLayout layout = new GroupLayout(this);
@@ -84,6 +93,8 @@ public class CreateCardPanel extends JPanel {
 			.createParallelGroup(Alignment.LEADING)
 			.addComponent(nameLabel)
 			.addComponent(nameField)
+			.addComponent(catLabel)
+			.addComponent(catField)
 			.addComponent(desLabel)
 			.addComponent(desScrollPane)
 			.addGroup(Alignment.TRAILING,
@@ -92,6 +103,9 @@ public class CreateCardPanel extends JPanel {
 			.createSequentialGroup()
 			.addComponent(nameLabel)
 			.addComponent(nameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+				GroupLayout.PREFERRED_SIZE)
+			.addComponent(catLabel)
+			.addComponent(catField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 				GroupLayout.PREFERRED_SIZE)
 			.addComponent(desLabel)
 			.addComponent(desScrollPane)
