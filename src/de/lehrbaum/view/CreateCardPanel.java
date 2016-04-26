@@ -23,37 +23,37 @@ import de.lehrbaum.model.Controller;
 @SuppressWarnings("serial")
 public class CreateCardPanel extends JPanel {
 	private static final Object hintKey = new Object();
-	
+
 	protected Controller c;
 	private JTextField nameField;
 	private JTextField catField;
 	private JTextArea desArea;
-	
+
 	public CreateCardPanel(Controller c) {
 		super();
 		this.c = c;
 		initialize();
 	}
-	
+
 	protected void initialize() {
-		//nameLabel:
+		// nameLabel:
 		JLabel nameLabel = new JLabel("Name");
 		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
-		//nameField:
+		// nameField:
 		nameField = new JTextField();
 		addHint(nameField, "Der Name der Medizin.");
 		nameField.setAlignmentX(LEFT_ALIGNMENT);
-		//catLabel:
+		// catLabel:
 		JLabel catLabel = new JLabel("Kategorie");
 		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
-		//catField:
+		// catField:
 		catField = new JTextField();
 		addHint(catField, "Die Kategorie der Medizin.");
 		catField.setAlignmentX(LEFT_ALIGNMENT);
-		//descriptionLabel:
+		// descriptionLabel:
 		JLabel desLabel = new JLabel("Beschreibung");
 		desLabel.setAlignmentX(LEFT_ALIGNMENT);
-		//desField:
+		// desField:
 		JScrollPane desScrollPane = new JScrollPane();
 		desScrollPane.setAlignmentX(LEFT_ALIGNMENT);
 		desArea = new JTextArea();
@@ -61,7 +61,7 @@ public class CreateCardPanel extends JPanel {
 		desArea.setLineWrap(true);
 		desArea.setWrapStyleWord(true);
 		desScrollPane.setViewportView(desArea);
-		//abort Button:
+		// abort Button:
 		JButton abort = new JButton("Abbrechen");
 		abort.addActionListener(new ActionListener() {
 			@Override
@@ -69,9 +69,9 @@ public class CreateCardPanel extends JPanel {
 				c.createCardAborted();
 			}
 		});
-		//save Button:
+		// save Button:
 		JButton save = new JButton("Speichern");
-		save.addActionListener(new ActionListener() {
+		ActionListener saveAction = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = nameField.getText();
@@ -83,6 +83,16 @@ public class CreateCardPanel extends JPanel {
 				String description = desArea.getText();
 				c.addCard(name, categorie, description);
 			}
+		};
+		save.addActionListener(saveAction);
+		// save Button:
+		JButton saveAndNew = new JButton("Weitere Karte hinzufügen");
+		saveAndNew.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveAction.actionPerformed(e);
+				c.createCardClicked();
+			}
 		});
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -90,30 +100,33 @@ public class CreateCardPanel extends JPanel {
 		layout.setAutoCreateContainerGaps(true);
 		layout.setHonorsVisibility(true);
 		layout.setHorizontalGroup(layout
-			.createParallelGroup(Alignment.LEADING)
-			.addComponent(nameLabel)
-			.addComponent(nameField)
-			.addComponent(catLabel)
-			.addComponent(catField)
-			.addComponent(desLabel)
-			.addComponent(desScrollPane)
-			.addGroup(Alignment.TRAILING,
-				layout.createSequentialGroup().addComponent(abort).addComponent(save)));
+				.createParallelGroup(Alignment.LEADING)
+				.addComponent(nameLabel)
+				.addComponent(nameField)
+				.addComponent(catLabel)
+				.addComponent(catField)
+				.addComponent(desLabel)
+				.addComponent(desScrollPane)
+				.addGroup(
+						Alignment.TRAILING,
+						layout.createSequentialGroup().addComponent(abort).addComponent(save)
+								.addComponent(saveAndNew)));
 		layout.setVerticalGroup(layout
-			.createSequentialGroup()
-			.addComponent(nameLabel)
-			.addComponent(nameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-				GroupLayout.PREFERRED_SIZE)
-			.addComponent(catLabel)
-			.addComponent(catField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-				GroupLayout.PREFERRED_SIZE)
-			.addComponent(desLabel)
-			.addComponent(desScrollPane)
-			.addGroup(layout.createParallelGroup()
-				.addComponent(abort)
-				.addComponent(save)));
+				.createSequentialGroup()
+				.addComponent(nameLabel)
+				.addComponent(nameField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE)
+				.addComponent(catLabel)
+				.addComponent(catField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE)
+				.addComponent(desLabel)
+				.addComponent(desScrollPane)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(abort)
+						.addComponent(save)
+						.addComponent(saveAndNew)));
 	}
-	
+
 	public static void addHint(final JTextComponent comp, final String hint) {
 		comp.putClientProperty(hintKey, hint);
 		final Font normalFont = comp.getFont();
@@ -122,11 +135,12 @@ public class CreateCardPanel extends JPanel {
 			comp.setText(hint);
 			comp.setFont(hintFont);
 		}
+		comp.setToolTipText(hint);
 		FocusPropertyListener listener = new FocusPropertyListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(focusPropertyName)
-					&& evt.getNewValue() instanceof Boolean) {
+						&& evt.getNewValue() instanceof Boolean) {
 					boolean focused = (boolean) evt.getNewValue();
 					if (focused)
 						focusGained(null);
@@ -134,7 +148,7 @@ public class CreateCardPanel extends JPanel {
 						focusLost(null);
 				}
 			}
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				if (comp.getText().isEmpty()) {
@@ -142,7 +156,7 @@ public class CreateCardPanel extends JPanel {
 					comp.setText(hint);
 				}
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				if (comp.getText().equals(hint)) {
@@ -154,9 +168,9 @@ public class CreateCardPanel extends JPanel {
 		comp.addFocusListener(listener);
 		comp.addPropertyChangeListener(FocusPropertyListener.focusPropertyName, listener);
 	}
-	
+
 	private abstract static class FocusPropertyListener implements FocusListener,
-		PropertyChangeListener {
+			PropertyChangeListener {
 		/**
 		 * The name of the focus property.
 		 */
